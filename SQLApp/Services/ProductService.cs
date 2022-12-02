@@ -7,7 +7,7 @@ namespace sqlapp.Services
 {
 
     // This service will interact with our Product data in the SQL database
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IConfiguration _configuration;
 
@@ -18,19 +18,19 @@ namespace sqlapp.Services
 
         private SqlConnection GetConnection()
         {
-            
-            return new SqlConnection(_configuration.GetConnectionString("SQLConnection");
+
+            return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
         public List<Product> GetProducts()
         {
             List<Product> _product_lst = new List<Product>();
             string _statement = "SELECT ProductID,ProductName,Quantity from Products";
             SqlConnection _connection = GetConnection();
-            
+
             _connection.Open();
-            
+
             SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-            
+
             using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
             {
                 while (_reader.Read())
